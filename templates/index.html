@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akciger Roentgen Pnomoni Tespiti</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(26, 32, 44, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(66, 153, 225, 0.3);
+        }
+        
+        header h1 {
+            background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        header nav a {
+            color: #90cdf4;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        header nav a:hover {
+            background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
+        }
+
+        .main-card {
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            background: rgba(26, 32, 44, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(66, 153, 225, 0.2);
+        }
+
+        .card-header-custom {
+            background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .card-header-custom h3 {
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .card-header-custom p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 16px;
+        }
+
+        .card-body {
+            padding: 3rem;
+        }
+
+        .patient-info {
+            background: rgba(45, 55, 72, 0.5);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(66, 153, 225, 0.2);
+        }
+
+        .patient-info h5 {
+            background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #cbd5e0;
+            margin-bottom: 8px;
+        }
+
+        .form-control, .form-select {
+            background: rgba(45, 55, 72, 0.5);
+            border: 2px solid rgba(66, 153, 225, 0.3);
+            border-radius: 10px;
+            padding: 12px;
+            transition: all 0.3s;
+            color: #e2e8f0;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(45, 55, 72, 0.7);
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+            color: #e2e8f0;
+        }
+
+        .form-control::placeholder {
+            color: #a0aec0;
+        }
+
+        .upload-section {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0.2) 0%, rgba(102, 126, 234, 0.2) 100%);
+            border: 2px dashed rgba(66, 153, 225, 0.5);
+            border-radius: 20px;
+            margin: 30px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(66, 153, 225, 0.3);
+            border-color: #4299e1;
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0.3) 0%, rgba(102, 126, 234, 0.3) 100%);
+        }
+
+        .upload-icon {
+            font-size: 60px;
+            color: #4299e1;
+            margin-bottom: 15px;
+        }
+
+        #file-name {
+            color: #90cdf4;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+            border: none;
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 10px 25px rgba(66, 153, 225, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(66, 153, 225, 0.4);
+        }
+
+        .info-section {
+            margin-top: 50px;
+            background: rgba(26, 32, 44, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(66, 153, 225, 0.2);
+        }
+
+        .info-section h3 {
+            background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .info-section p {
+            color: #cbd5e0;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-section li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #cbd5e0;
+        }
+
+        .info-section li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4299e1;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .info-section strong {
+            color: #90cdf4;
+        }
+
+        footer {
+            background: rgba(26, 32, 44, 0.95);
+            backdrop-filter: blur(10px);
+            color: #cbd5e0;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            font-weight: 500;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+            border-top: 2px solid rgba(66, 153, 225, 0.3);
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .progress {
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: rgba(45, 55, 72, 0.5);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #4299e1 0%, #667eea 100%);
+            font-weight: 600;
+        }
+
+        #file-info {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 10px;
+            border: 1px solid rgba(66, 153, 225, 0.2);
+        }
+
+        #selected-file-name {
+            color: #90cdf4;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 101, 101, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 20px;
+            }
+
+            .card-header-custom h3 {
+                font-size: 24px;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1>🫁 Akciger Roentgen Pnomoni Tespiti</h1>
+            <nav>
+                <a href="{{ url_for('index') }}">Ana Sayfa</a>
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('history') }}">Gecmis</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <div class="main-card">
+                    <div class="card-header-custom">
+                        <h3>🔬 Roentgen Goruntunuzu Yukleyin</h3>
+                        <p>Pnomoni belirtilerini tespit etmek icin akciger roentgen goruntunuzu yukleyin</p>
+                    </div>
+                    <div class="card-body">
+                        <form id="upload-form" action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data">
+                            <!-- معلومات المريض -->
+                            <div class="patient-info">
+                                <h5>📋 Hasta Bilgileri (Opsiyonel)</h5>
+                                <div class="mb-3">
+                                    <label for="patient_name" class="form-label">Ad Soyad</label>
+                                    <input type="text" class="form-control" id="patient_name" name="patient_name" placeholder="Hastanın adı">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="tc_kimlik" class="form-label">TC Kimlik No</label>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="tc_kimlik" 
+                                               name="tc_kimlik" 
+                                               placeholder="TC Kimlik Numarası (11 hane)"
+                                               maxlength="11"
+                                               pattern="[0-9]*"
+                                               title="Sadece rakam giriniz (maksimum 11 hane)">
+                                        <small style="color: #90cdf4; font-size: 12px;">*Opsiyonel - Arama için kullanılabilir</small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="patient_phone" class="form-label">Telefon</label>
+                                        <input type="tel" class="form-control" id="patient_phone" name="patient_phone" placeholder="Telefon numarası">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="patient_age" class="form-label">Yaş</label>
+                                        <input type="number" class="form-control" id="patient_age" name="patient_age" placeholder="Yaş">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="patient_gender" class="form-label">Cinsiyet</label>
+                                        <select class="form-control" id="patient_gender" name="patient_gender">
+                                            <option value="Belirtilmemis">Belirtilmemis</option>
+                                            <option value="Erkek">Erkek</option>
+                                            <option value="Kadin">Kadin</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="notes" class="form-label">Notlar</label>
+                                    <textarea class="form-control" id="notes" name="notes" rows="2" placeholder="Ek notlar..."></textarea>
+                                </div>
+                            </div>
+                            
+                            <label for="x-ray-upload" class="upload-section">
+                                <div class="upload-icon">📤</div>
+                                <span id="file-name">Roentgen goruntusunu sec</span>
+                            </label>
+                            <input type="file" id="x-ray-upload" name="file" accept=".jpg,.jpeg,.png" required hidden onchange="updateFileInfo()">
+                            
+                            <button type="submit" class="btn-submit">🚀 Yukle ve Analiz Et</button>
+                        </form>
+
+                        <div id="file-info">
+                            <p id="selected-file-name"></p>
+                            <button type="button" class="btn btn-danger" onclick="removeFile()">❌ Dosyayi Kaldir</button>
+                        </div>
+
+                        <div id="progress-container" class="progress-container">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" id="progress-bar">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>� Pnömoni Hakkında Detaylı Bilgi</h3>
+            
+            <h4 style="color: #90cdf4; margin-top: 25px; margin-bottom: 15px;">🔍 Pnömoni Nedir?</h4>
+            <p>Pnömoni, bir veya iki akciğerde hava keselerinin iltihaplanması sonucu ciddi bir enfeksiyondur. Bu iltihap, hava keselerinin sıvı veya irinle dolmasına yol açar ve nefes almayı zorlaştırır. Enfeksiyon bakteriler, virüsler veya mantarlar tarafından oluşturulabilir.</p>
+
+            <h4 style="color: #90cdf4; margin-top: 25px; margin-bottom: 15px;">🩺 Belirtiler</h4>
+            <ul>
+                <li>Yeşil veya sarı balgamlı devamlı öksürük</li>
+                <li>Yüksek ateş, titreme ve terleme</li>
+                <li>Kısa süreli nefes darlığı</li>
+                <li>Göğüs ağrısı (özellikle derin nefes alırken)</li>
+                <li>Yorgunluk, halsizlik ve iştah kaybı</li>
+            </ul>
+
+            <h4 style="color: #90cdf4; margin-top: 25px; margin-bottom: 15px;">💉 Tedavi Yöntemleri</h4>
+            <ul>
+                <li><strong>Antibiyotikler:</strong> Bakteriyel pnömoni tedavisinde kullanılır</li>
+                <li><strong>Antiviral ilaçlar:</strong> Viral pnömoni için</li>
+                <li><strong>Destekleyici bakım:</strong> Oksijen tedavisi, dinlenme ve sıvı alımı</li>
+                <li><strong>Hastaneye yatış:</strong> Ciddi vakalarda gerekebilir</li>
+            </ul>
+
+            <h4 style="color: #90cdf4; margin-top: 25px; margin-bottom: 15px;">💡 Program Nasıl Çalışır?</h4>
+            <p>Bu program, yüklediğiniz röntgen görüntüleri analiz etmek için gelişmiş yapay zeka algoritmalarını kullanır. Sistem, akciğer enfeksiyonlarının bilinen desenlerine göre pnömoni belirtilerini arar.</p>
+            <ul>
+                <li><strong>Adım 1:</strong> Akciğerlerinize ait bir röntgen görüntüsü yüklersiniz</li>
+                <li><strong>Adım 2:</strong> Görüntü, pnömoniyi tespit etmek için eğitilmiş derin öğrenme modeli ile işlenir</li>
+                <li><strong>Adım 3:</strong> Program görüntüyü analiz eder ve pnömoni belirtilerini gösterip göstermediğini belirten bir tahmin sağlar</li>
+                <li><strong>Adım 4:</strong> Sonuçları anında görebilir ve gerekli adımları atabilirsiniz</li>
+            </ul>
+            
+            <div style="background: rgba(45, 55, 72, 0.6); border-left: 4px solid #fc8181; padding: 25px; border-radius: 12px; margin-top: 30px; border: 1px solid rgba(252, 129, 129, 0.3); box-shadow: 0 4px 15px rgba(252, 129, 129, 0.1);">
+                <p style="margin: 0; font-weight: 700; color: #fc8181; font-size: 18px;">
+                    <i class="fas fa-exclamation-triangle"></i> <strong>Önemli Uyarı</strong>
+                </p>
+                <p style="margin-top: 15px; margin-bottom: 0; color: #e2e8f0; line-height: 1.8;">
+                    Bu sistem yapay zeka tabanlıdır ve profesyonel tıbbi teşhisin yerini <strong style="color: #fc8181;">ALMAZ</strong>. Her zaman uzman bir hekime danışmanız şiddetle tavsiye edilir. Erken teşhis ve tedavi, pnömoninin etkisini azaltmak için kritik öneme sahiptir.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Akciger Roentgen Analiz Sistemi | Tum haklari saklidir - MUHAMMED MUHAMMED</p>
+    </footer>
+
+    <!-- JavaScript Dosyasını Dahil Et -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function updateFileInfo() {
+            var input = document.getElementById("x-ray-upload");
+            var fileName = input.files[0].name;
+            document.getElementById("file-name").textContent = "✅ " + fileName;
+            document.getElementById("file-info").style.display = "block";
+            document.getElementById("selected-file-name").textContent = "Secilen dosya: " + fileName;
+        }
+
+        function removeFile() {
+            document.getElementById("x-ray-upload").value = "";
+            document.getElementById("file-name").textContent = "Roentgen goruntusunu sec";
+            document.getElementById("file-info").style.display = "none";
+        }
+
+        document.getElementById("upload-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            document.getElementById("progress-container").style.display = "block";
+            
+            let progress = 0;
+            let interval = setInterval(function() {
+                progress += 10;
+                document.getElementById("progress-bar").style.width = progress + "%";
+                document.getElementById("progress-bar").textContent = progress + "%";
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(function() {
+                        document.getElementById("upload-form").submit();
+                    }, 300);
+                }
+            }, 200);
+        });
+    </script>
+
+</body>
+</html>
