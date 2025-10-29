@@ -129,9 +129,7 @@ X-ray/
 
 Bu proje eğitim amaçlı geliştirilmiştir.
 
-## 👨‍💻 Geliştirici
 
-Staj Projesi - 2025
 
 ---
 
