@@ -62,7 +62,7 @@ X-ray/
 ├── train_model.py        # Model eğitim scripti
 ├── DL.py                 # Alternatif CNN modeli
 ├── requirements.txt      # Python bağımlılıkları
-├── best_model.h5         # Eğitilmiş AI modeli (eklenecek)
+├── best_model.h5         # Eğitilmiş AI modeli 
 ├── static/
 │   ├── css/
 │   │   └── styles.css
@@ -130,7 +130,7 @@ Her klasörde iki alt klasör bulunur:
 
 ### Sonuçlar
 
-Aşağıda test seti üzerinde elde edilen temel metrikler yaklaşık olarak verilmiştir (örnek, modelin genel başarım aralığını yansıtır):
+Aşağıda test seti üzerinde elde edilen temel metrikler yaklaşık olarak verilmiştir :
 
 | Metrik      | Değer (yaklaşık) |
 |-------------|------------------|
