@@ -141,7 +141,6 @@ Aşağıda test seti üzerinde elde edilen temel metrikler yaklaşık olarak ver
 
 > Not: Bu değerler yaklaşık ve örnektir, modelin gerçek başarımı eğitimden eğitime değişebilir. Orijinal test sonuçları kaydedilmediği için yaklaşık değerler verilmiştir; kesin sonuçlar için modelin yeniden eğitilmesi gerekmektedir.
 
-
 ## 🎨 Özellikler Detayı
 
 ### 1. Tarama Analizi
