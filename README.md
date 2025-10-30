@@ -86,12 +86,61 @@ X-ray/
 - **Visualization**: Grad-CAM, OpenCV
 - **Reports**: ReportLab
 
+
 ## 📊 Model Performansı
 
 - **Doğruluk (Accuracy)**: ~90-95%
 - **Model**: MobileNetV2 (ImageNet pre-trained)
 - **Input Size**: 224x224x3
 - **Dataset**: Chest X-Ray Images (Pneumonia)
+
+## 📚 Veri Seti ve Model Eğitimi
+
+### Veri Seti
+Bu projede, [Chest X-ray Pneumonia Dataset](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia) kullanılmıştır. Veri seti üç ana klasöre ayrılmıştır:
+- `train/`: Model eğitimi için kullanıldı.
+- `val/`: Doğrulama (validation) için kullanıldı.
+- `test/`: Nihai test için kullanıldı.
+
+Her klasörde iki alt klasör bulunur:
+- `NORMAL`: Sağlam akciğer röntgenleri
+- `PNEUMONIA`: Pnömoni teşhisi konmuş röntgenler
+
+#### Görüntü Dağılımı (örnek)
+| Klasör   | NORMAL | PNEUMONIA |
+|----------|--------|-----------|
+| train    | 1341   | 3875      |
+| val      | 8      | 8         |
+| test     | 234    | 390       |
+
+> Not: Rakamlar veri setinizdeki gerçek dosya sayısına göre güncellenmelidir.
+
+### Veri İşleme ve Dengeleme
+- Görüntüler yeniden boyutlandırıldı (ör: 224x224).
+- Veri artırımı (augmentation) uygulandı: yatay çevirme, döndürme, yakınlaştırma, parlaklık değişimi vb.
+- Sınıf dengesizliği için class_weight veya oversampling yöntemleri kullanıldı.
+
+### Model ve Eğitim
+- Model: MobileNetV2 (transfer learning, ImageNet ağırlıkları ile)
+- Eğitim parametreleri:
+    - Epoch: 10-20
+    - Batch size: 32
+    - Learning rate: 0.0001 (Adam optimizer)
+- En iyi model `val/` doğrulama setine göre kaydedildi.
+
+### Sonuçlar
+Aşağıda test seti üzerinde elde edilen temel metrikler verilmiştir:
+
+| Metrik      | Değer   |
+|-------------|---------|
+| Accuracy    | %92.5   |
+| Precision   | %91.2   |
+| Recall      | %93.1   |
+| F1-score    | %92.1   |
+
+> Not: Bu değerler örnektir, kendi sonuçlarınızla güncelleyiniz.
+
+Ek olarak, karışıklık matrisi (confusion matrix) ve ROC eğrisi gibi görseller de eklenebilir.
 
 ## 🎨 Özellikler Detayı
 
