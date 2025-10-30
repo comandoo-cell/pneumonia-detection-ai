@@ -139,9 +139,8 @@ Aşağıda test seti üzerinde elde edilen temel metrikler yaklaşık olarak ver
 | Recall      | %93.1            |
 | F1-score    | %92.1            |
 
-> Not: Bu değerler yaklaşık ve örnektir, modelin gerçek başarımı eğitimden eğitime değişebilir. Kendi sonuçlarınızla güncelleyebilirsiniz.
+> Not: Bu değerler yaklaşık ve örnektir, modelin gerçek başarımı eğitimden eğitime değişebilir. Orijinal test sonuçları kaydedilmediği için yaklaşık değerler verilmiştir; kesin sonuçlar için modelin yeniden eğitilmesi gerekmektedir.
 
-Ek olarak, karışıklık matrisi (confusion matrix) ve ROC eğrisi gibi görseller de eklenebilir.
 
 ## 🎨 Özellikler Detayı
 
@@ -183,4 +182,4 @@ Bu proje eğitim amaçlı geliştirilmiştir.
 
 ---
 
-**Uyarı**: Bu uygulama bir yapay zeka sistemi tarafından oluşturulmuştur ve profesyonel tıbbi teşhisin yerini almaz.
+**Uyarı**: Bu uygulama profesyonel tıbbi teşhisin yerini almaz.
