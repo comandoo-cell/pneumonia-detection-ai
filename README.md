@@ -113,7 +113,7 @@ Her klasörde iki alt klasör bulunur:
 | val      | 8      | 8         |
 | test     | 234    | 390       |
 
-> Not: Bu rakamlar doğrudan proje klasörlerinden alınmıştır ve gerçektir.
+
 
 ### Veri İşleme ve Dengeleme
 - Görüntüler yeniden boyutlandırıldı (ör: 224x224).
