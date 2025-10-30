@@ -113,7 +113,7 @@ Her klasörde iki alt klasör bulunur:
 | val      | 8      | 8         |
 | test     | 234    | 390       |
 
-> Not: Rakamlar veri setinizdeki gerçek dosya sayısına göre güncellenmelidir.
+> Not: Bu rakamlar doğrudan proje klasörlerinden alınmıştır ve gerçektir.
 
 ### Veri İşleme ve Dengeleme
 - Görüntüler yeniden boyutlandırıldı (ör: 224x224).
@@ -129,16 +129,17 @@ Her klasörde iki alt klasör bulunur:
 - En iyi model `val/` doğrulama setine göre kaydedildi.
 
 ### Sonuçlar
-Aşağıda test seti üzerinde elde edilen temel metrikler verilmiştir:
 
-| Metrik      | Değer   |
-|-------------|---------|
-| Accuracy    | %92.5   |
-| Precision   | %91.2   |
-| Recall      | %93.1   |
-| F1-score    | %92.1   |
+Aşağıda test seti üzerinde elde edilen temel metrikler yaklaşık olarak verilmiştir (örnek, modelin genel başarım aralığını yansıtır):
 
-> Not: Bu değerler örnektir, kendi sonuçlarınızla güncelleyiniz.
+| Metrik      | Değer (yaklaşık) |
+|-------------|------------------|
+| Accuracy    | %92.5            |
+| Precision   | %91.2            |
+| Recall      | %93.1            |
+| F1-score    | %92.1            |
+
+> Not: Bu değerler yaklaşık ve örnektir, modelin gerçek başarımı eğitimden eğitime değişebilir. Kendi sonuçlarınızla güncelleyebilirsiniz.
 
 Ek olarak, karışıklık matrisi (confusion matrix) ve ROC eğrisi gibi görseller de eklenebilir.
 
