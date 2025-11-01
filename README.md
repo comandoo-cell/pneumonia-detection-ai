@@ -1,418 +1,56 @@
-# Model Karşılaştırması ve Sonuçlar (Pneumonia Detection)
-
-## Değerlendirme Sonuçları
-
-Aynı test verisi üzerinde iki model test edildi:
-
-### Model 1: `best_model.h5`
-- **Genel Doğruluk (Accuracy):** 0.78
-- **Normal Sınıfı Hassasiyet (Precision):** 0.98
-- **Normal Sınıfı Duyarlılık (Recall):** 0.42
-- **Normal Sınıfı F1-score:** 0.59
-- **Pneumonia Sınıfı Hassasiyet (Precision):** 0.74
-- **Pneumonia Sınıfı Duyarlılık (Recall):** 0.99
-- **Pneumonia Sınıfı F1-score:** 0.85
-
-**Yorum:**
-Birinci model, hiçbir pneumonia vakasını kaçırmamak için uygundur (çok yüksek duyarlılık), ancak çok fazla yanlış pozitif (False Positive) üretir. Pratikte dengesizdir.
-
-#### Confusion Matrix:
-![Confusion Matrix](confusion_matrix_best_model.png)
-
-#### ROC Eğrisi:
-![ROC Curve](roc_curve_best_model.png)
-
-- **Pneumonia Sınıfı Hassasiyet (Precision):** 0.86
-- **Pneumonia Sınıfı Duyarlılık (Recall):** 0.97
-- **Pneumonia Sınıfı F1-score:** 0.91
-
-**Yorum:**
-İkinci model çok daha dengeli ve genel doğruluğu daha yüksek:
-- Daha yüksek genel doğruluk (Accuracy)
-- Normal ve Pneumonia sınıfları arasında daha iyi denge
-- Normal görüntülerde daha az hata
-
-
-#### Confusion Matrix:
-## Model Yayını
-
-`best_model_NEW_TEST.h5` dosyası projeye eklenmiş ve uygulamada varsayılan olarak kullanılmaktadır.
-Web tabanlı yapay zeka destekli akciğer röntgeni analiz sistemi.
-
-## 🎯 Özellikler
-
-- **Yapay Zeka Analizi**: MobileNetV2 tabanlı derin öğrenme modeli (%90-95 doğruluk)
-- **Grad-CAM Görselleştirme**: AI kararlarının görsel açıklaması
-- **Hasta Yönetimi**: TC Kimlik No ile hasta kayıt sistemi
-- **PDF Raporlama**: Detaylı tarama raporları
-- **İstatistik Paneli**: Gerçek zamanlı analiz ve grafikler
-- **Arama ve Filtreleme**: Gelişmiş kayıt yönetimi
-
-## 🚀 Kurulum
-
-### Gereksinimler
-
-```bash
-Python 3.8+
-pip
-```
-cd X-ray
-```
-
-2. Sanal ortam oluşturun:
-```bash
-python -m venv venv
-venv\Scripts\activate  # Windows
-source venv/bin/activate  # Linux/Mac
-```
-
-3. Bağımlılıkları yükleyin:
-```bash
-pip install -r requirements.txt
-```
-
-4. Modeli indirin:
-- `best_model_NEW_TEST.h5` dosyasını proje kök dizinine yerleştirin
-
-5. Uygulamayı başlatın:
-```bash
-cd X-ray
-python app.py
-```
-
-6. Tarayıcıda açın: `http://localhost:5000`
-
-## 📁 Proje Yapısı
-
-```
-X-ray/
-├── app.py                 # Ana Flask uygulaması
-├── gradcam.py            # Grad-CAM görselleştirme
-├── pdf_generator.py      # PDF rapor oluşturma
-├── train_model.py        # Model eğitim scripti
-├── DL.py                 # Alternatif CNN modeli
-├── requirements.txt      # Python bağımlılıkları
-├── best_model_NEW_TEST.h5 # Eğitilmiş AI modeli (eklenecek)
-├── static/
-│   ├── css/
-│   │   └── styles.css
-│   ├── js/
-│   │   └── scripts.js
-│   ├── uploads/          # Yüklenen röntgenler
-│   ├── heatmaps/         # Grad-CAM görselleri
-│   └── reports/          # Oluşturulan PDF'ler
-└── templates/
-    ├── index.html        # Ana sayfa
-    ├── result.html       # Sonuç sayfası
-    ├── history.html      # Kayıt geçmişi
-    └── dashboard.html    # İstatistik paneli
-```
-
-## 🔬 Teknolojiler
-
-- **Backend**: Flask, TensorFlow, Keras, SQLite
-- **Frontend**: HTML5, CSS3, JavaScript, Bootstrap 5, Chart.js
-- **AI Model**: MobileNetV2 (Transfer Learning)
-- **Visualization**: Grad-CAM, OpenCV
-- **Reports**: ReportLab
-
-## 📊 Model Performansı
-
-- **Doğruluk (Accuracy)**: ~90-95%
-- **Model**: MobileNetV2 (ImageNet pre-trained)
-- **Input Size**: 224x224x3
-- **Dataset**: Chest X-Ray Images (Pneumonia)
-
-## 📚 Veri Seti ve Model Eğitimi
-
-
-Her klasörde iki alt klasör bulunur:
-- `NORMAL`: Sağlam akciğer röntgenleri
-|----------|--------|-----------|
-| train    | 1341   | 3875      |
-| val      | 8      | 8         |
-| test     | 234    | 390       |
-
-- Görüntüler yeniden boyutlandırıldı (ör: 224x224).
-- Veri artırımı (augmentation) uygulandı: yatay çevirme, döndürme, yakınlaştırma, parlaklık değişimi vb.
-### Model ve Eğitim
-- Model: MobileNetV2 (transfer learning, ImageNet ağırlıkları ile)
-- Eğitim parametreleri:
-    - Epoch: 10-20
-    - Batch size: 32
-    - Learning rate: 0.0001 (Adam optimizer)
-- En iyi model `val/` doğrulama setine göre kaydedildi.
-
-### Sonuçlar
-
-Aşağıda test seti üzerinde elde edilen temel metrikler yaklaşık olarak verilmiştir (örnek, modelin genel başarım aralığını yansıtır):
-| Accuracy    | %92.5            |
-| Precision   | %91.2            |
-
-> Not: Bu değerler yaklaşık ve örnektir, modelin gerçek başarımı eğitimden eğitime değişebilir. Orijinal test sonuçları kaydedilmediği için yaklaşık değerler verilmiştir; kesin sonuçlar için modelin yeniden eğitilmesi gerekmektedir.
-
-## 🎨 Özellikler Detayı
-
-### 1. Tarama Analizi
-- Röntgen görüntüsü yükleme
-- Anlık AI analizi
-- Güven skoru hesaplama
-- Grad-CAM ısı haritası
-
-### 2. Hasta Yönetimi
-- TC Kimlik No ile kayıt
-- Hasta bilgileri (ad, yaş, cinsiyet, telefon)
-- Tarama geçmişi
-
-### 3. Raporlama
-- Profesyonel PDF raporları
-- Görüntüler ve ısı haritaları
-- Tıbbi tavsiyeler
-- Pnömoni/Normal dağılımı
-- Zaman bazlı grafikler
-
-- Bu sistem **eğitim ve araştırma** amaçlıdır
-## 📄 Lisans
-
-
-**Uyarı**: Bu uygulama profesyonel tıbbi teşhisin yerini almaz.
-<<<<<<< HEAD
-## 🎯 Özellikler
-
-- **Yapay Zeka Analizi**: MobileNetV2 tabanlı derin öğrenme modeli (%90-95 doğruluk)
-- **Grad-CAM Görselleştirme**: AI kararlarının görsel açıklaması
-- **Hasta Yönetimi**: TC Kimlik No ile hasta kayıt sistemi
-- **İstatistik Paneli**: Gerçek zamanlı analiz ve grafikler
-- **Arama ve Filtreleme**: Gelişmiş kayıt yönetimi
-
-## 🚀 Kurulum
-
-### Gereksinimler
-
-```bash
-Python 3.8+
-pip
-```
-
-### Adımlar
-
-1. Depoyu klonlayın:
-```bash
-git clone [REPO_URL]
-cd X-ray
-```
-
-2. Sanal ortam oluşturun:
-```bash
-python -m venv venv
-venv\Scripts\activate  # Windows
-source venv/bin/activate  # Linux/Mac
-```
-
-3. Bağımlılıkları yükleyin:
-```bash
-pip install -r requirements.txt
-```
-
-4. Modeli indirin:
-- `best_model.h5` dosyasını proje kök dizinine yerleştirin
-
-5. Uygulamayı başlatın:
-```bash
-cd X-ray
-python app.py
-```
-
-6. Tarayıcıda açın: `http://localhost:5000`
-
-## 📁 Proje Yapısı
-
-```
-X-ray/
-├── app.py                 # Ana Flask uygulaması
-├── database.py            # SQLite veritabanı işlemleri
-├── gradcam.py            # Grad-CAM görselleştirme
-├── pdf_generator.py      # PDF rapor oluşturma
-├── train_model.py        # Model eğitim scripti
-├── DL.py                 # Alternatif CNN modeli
-├── requirements.txt      # Python bağımlılıkları
-├── best_model.h5         # Eğitilmiş AI modeli 
-├── static/
-│   ├── css/
-│   │   └── styles.css
-│   ├── js/
-│   │   └── scripts.js
-│   ├── uploads/          # Yüklenen röntgenler
-│   ├── heatmaps/         # Grad-CAM görselleri
-│   └── reports/          # Oluşturulan PDF'ler
-└── templates/
-    ├── index.html        # Ana sayfa
-    ├── result.html       # Sonuç sayfası
-    ├── history.html      # Kayıt geçmişi
-    └── dashboard.html    # İstatistik paneli
-```
-
-## 🔬 Teknolojiler
-
-- **Backend**: Flask, TensorFlow, Keras, SQLite
-- **Frontend**: HTML5, CSS3, JavaScript, Bootstrap 5, Chart.js
-- **AI Model**: MobileNetV2 (Transfer Learning)
-- **Visualization**: Grad-CAM, OpenCV
-- **Reports**: ReportLab
-
-
-## 📊 Model Performansı
-
-- **Doğruluk (Accuracy)**: ~90-95%
-- **Model**: MobileNetV2 (ImageNet pre-trained)
-- **Input Size**: 224x224x3
-- **Dataset**: Chest X-Ray Images (Pneumonia)
-
-## 📚 Veri Seti ve Model Eğitimi
-
-### Veri Seti
-Bu projede, [Chest X-ray Pneumonia Dataset](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia) kullanılmıştır. Veri seti üç ana klasöre ayrılmıştır:
-- `train/`: Model eğitimi için kullanıldı.
-- `val/`: Doğrulama (validation) için kullanıldı.
-- `test/`: Nihai test için kullanıldı.
-
-Her klasörde iki alt klasör bulunur:
-- `NORMAL`: Sağlam akciğer röntgenleri
-- `PNEUMONIA`: Pnömoni teşhisi konmuş röntgenler
-
-#### Görüntü Dağılımı (örnek)
-| Klasör   | NORMAL | PNEUMONIA |
-|----------|--------|-----------|
-| train    | 1341   | 3875      |
-| val      | 8      | 8         |
-| test     | 234    | 390       |
-
-
-
-### Veri İşleme ve Dengeleme
-- Görüntüler yeniden boyutlandırıldı (ör: 224x224).
-- Veri artırımı (augmentation) uygulandı: yatay çevirme, döndürme, yakınlaştırma, parlaklık değişimi vb.
-- Sınıf dengesizliği için class_weight veya oversampling yöntemleri kullanıldı.
-
-### Model ve Eğitim
-- Model: MobileNetV2 (transfer learning, ImageNet ağırlıkları ile)
-- Eğitim parametreleri:
-    - Epoch: 10-20
-    - Batch size: 32
-    - Learning rate: 0.0001 (Adam optimizer)
-- En iyi model `val/` doğrulama setine göre kaydedildi.
-
-### Sonuçlar
-
-Aşağıda test seti üzerinde elde edilen temel metrikler yaklaşık olarak verilmiştir :
-
-| Metrik      | Değer (yaklaşık) |
-|-------------|------------------|
-| Accuracy    | %92.5            |
-| Precision   | %91.2            |
-| Recall      | %93.1            |
-| F1-score    | %92.1            |
-
-> Not: Bu değerler yaklaşık ve örnektir, modelin gerçek başarımı eğitimden eğitime değişebilir. Orijinal test sonuçları kaydedilmediği için yaklaşık değerler verilmiştir; kesin sonuçlar için modelin yeniden eğitilmesi gerekmektedir.
-
-## 🎨 Özellikler Detayı
-
-### 1. Tarama Analizi
-- Röntgen görüntüsü yükleme
-- Anlık AI analizi
-- Güven skoru hesaplama
-- Grad-CAM ısı haritası
-
-### 2. Hasta Yönetimi
-- TC Kimlik No ile kayıt
-- Hasta bilgileri (ad, yaş, cinsiyet, telefon)
-- Tarama geçmişi
-
-### 3. Raporlama
-- Profesyonel PDF raporları
-- Görüntüler ve ısı haritaları
-- Tıbbi tavsiyeler
-- Yasal uyarılar
-
-### 4. Dashboard
-- Toplam tarama sayısı
-- Pnömoni/Normal dağılımı
-- Zaman bazlı grafikler
-- Son taramalar
-
-## ⚠️ Önemli Notlar
-
-- Bu sistem **eğitim ve araştırma** amaçlıdır
-- Profesyonel tıbbi teşhis için kullanılmamalıdır
-- Kesin tanı için **uzman hekime** danışılmalıdır
-- Model sonuçları %100 doğru değildir
-
-## 📄 Lisans
-
-Bu proje eğitim amaçlı geliştirilmiştir.
-
-
-
----
-
-**Uyarı**: Bu uygulama profesyonel tıbbi teşhisin yerini almaz.
-=======
-### أمثلة من نتائج النموذج الأول:
-
-#### مصفوفة الالتباس:
-![Confusion Matrix](confusion_matrix_best_model.png)
-
-#### منحنى ROC:
-![ROC Curve](roc_curve_best_model.png)
-
-### أمثلة من نتائج النموذج الثاني:
-
-#### مصفوفة الالتباس:
-![Confusion Matrix](confusion_matrix_best_model_NEW_TEST.png)
-
-#### منحنى ROC:
-![ROC Curve](roc_curve_best_model_NEW_TEST.png)
-
 # مقارنة وتقييم النماذج (Pneumonia Detection)
 
-## نتائج التقييم
+تم تحديث هذا الملخص في 1 تشرين الثاني 2025 بعد تشغيل `evaluate_model.py` على مجموعة الاختبار الرسمية `chest_xray/test`.
 
-تم اختبار نموذجين للكشف عن الالتهاب الرئوي على نفس بيانات الاختبار:
+## ملخص سريع
+- النموذج المعتمد حاليا هو `best_model_NEW_TEST.h5`، وهو المستخدم داخل تطبيق Flask.
+- النموذج الاقدم `best_model.h5` ما زال متوفرا للرجوع اليه، لكنه ينتج عددا اكبر من حالات القبول الخاطئ لفئة Normal.
+- كلا النموذجين يستخدمان بنية MobileNetV2 بحجم ادخال 224x224 وتم تدريبهما على نفس البيانات.
 
-### النموذج الأول: `best_model.h5`
-- **الدقة العامة (Accuracy):** 0.78
-- **الدقة النوعية (Precision) لفئة Normal:** 0.98
-- **الاسترجاع (Recall) لفئة Normal:** 0.42
-- **F1-score لفئة Normal:** 0.59
-- **الدقة النوعية (Precision) لفئة Pneumonia:** 0.74
-- **الاسترجاع (Recall) لفئة Pneumonia:** 0.99
-- **F1-score لفئة Pneumonia:** 0.85
+## نتائج التقييم (Test Set)
 
-**الاستنتاج:**
-النموذج الأول مناسب إذا كان الهدف هو عدم تفويت أي حالة Pneumonia (حساسية عالية جداً)، حتى لو كان ذلك على حساب زيادة عدد الحالات السليمة المصنفة خطأ (False Positives). عمليًا النموذج غير متوازن.
+| النموذج | Accuracy | Precision | Recall | F1-score | ROC AUC |
+|---------|----------|-----------|--------|----------|---------|
+| `best_model.h5` | 78.0% | 74.2% | 99.5% | 85.0% | 95.7% |
+| `best_model_NEW_TEST.h5` | 88.6% | 86.3% | 97.2% | 91.4% | 95.1% |
 
----
+- التحسن الاكبر يظهر في فئة Normal حيث انخفضت الاخطاء من 135 الى 60 صورة خاطئة، بينما بقيت حساسية فئة Pneumonia مرتفعة.
+- F1-score حسب الفئة: النموذج القديم Normal = 0.59 / Pneumonia = 0.85، النموذج الجديد Normal = 0.83 / Pneumonia = 0.91.
+- اختلاف بسيط في ROC AUC، لكن التوازن العام للنموذج الجديد يجعله الخيار الموصى به للاستخدام السريري المساعد.
 
-### النموذج الثاني: `best_model_NEW_TEST.h5`
-- **الدقة العامة (Accuracy):** 0.89
-- **الدقة النوعية (Precision) لفئة Normal:** 0.94
-- **الاسترجاع (Recall) لفئة Normal:** 0.74
-- **F1-score لفئة Normal:** 0.83
-- **الدقة النوعية (Precision) لفئة Pneumonia:** 0.86
-- **الاسترجاع (Recall) لفئة Pneumonia:** 0.97
-- **F1-score لفئة Pneumonia:** 0.91
+## مصفوفات الالتباس
 
-**الاستنتاج:**
-النموذج الثاني أفضل بوضوح:
-- أعلى دقة عامة (Accuracy)
-- توازن أفضل بين الكشف عن المرض والحالات السليمة
-- أخطاء أقل على صور Normal
+| النموذج | الصورة |
+|---------|--------|
+| `best_model.h5` | ![Confusion Matrix](Figure_1.png) |
+| `best_model_NEW_TEST.h5` | ![Confusion Matrix](Figure_2.png) |
 
-لذلك يوصى باستخدام النموذج الثاني في التطبيق العملي.
+## منحنيات ROC
 
----
+| النموذج | الصورة |
+|---------|--------|
+| `best_model.h5` | ![ROC Curve](one.png) |
+| `best_model_NEW_TEST.h5` | ![ROC Curve](two.png) |
+
+> في حال تعذر عرض الصور على GitHub، تأكد من تحميل الملف كاملا او استعرضه محليا.
+
+## كيفية اعادة التقييم
+
+1. فعّل البيئة الافتراضية: `venv\\Scripts\\activate` (او استخدم البيئة التي تم اعدادها مسبقا).
+2. نفّذ:
+   ```bash
+   python evaluate_model.py
+   ```
+3. سيتم تحميل النموذج المحدد في الملف وتوليد التقرير النصي، المصفوفة، ومنحنى ROC.
+4. لتبديل النموذج قم بتعديل المتغير `model_path` داخل `evaluate_model.py`.
 
 ## نشر النموذج
 
-تم رفع النموذج الثاني `best_model_NEW_TEST.h5` ضمن ملفات المشروع لاستخدامه مباشرة في التطبيق.
->>>>>>> c0f3651 (توثيق نتائج النموذج الثاني ونشر الصور والنموذج المعتمد)
+- الملف `best_model_NEW_TEST.h5` مرفوع داخل المستودع ويمكن استخدامه مباشرة في التطبيق (`app.py`).
+- النموذج القديم `best_model.h5` يبقى للاختبارات المستقبلية او المقارنات الاضافية.
+- ايقونة `static/heatmaps/` ستستقبل مخرجات Grad-CAM عند تشغيل التطبيق.
+
+## ملاحظات عامة
+
+- هذا المشروع يهدف الى دعم الاطباء ولا يغني عن التشخيص السريري.
+- لا ينصح باستخدام النماذج كما هي في اجراءات طبية حقيقية من دون مراجعة مختص.
