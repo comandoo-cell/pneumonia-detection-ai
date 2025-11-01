@@ -10,7 +10,7 @@ from datetime import datetime
 import database as db
 from pdf_generator import generate_pdf_report, generate_report_filename
 
-model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'best_model.h5'))
+model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'best_model_NEW_TEST.h5'))
 
 UPLOAD_FOLDER = 'static/uploads'
 HEATMAP_FOLDER = 'static/heatmaps'
@@ -190,4 +190,6 @@ def generate_report(scan_id):
         return "Error generating report", 500
 
 if __name__ == '__main__':
+    url = 'http://127.0.0.1:5000/'
+    print(f'\n\u25B6 افتح المتصفح: {url}\n')
     app.run(debug=True)

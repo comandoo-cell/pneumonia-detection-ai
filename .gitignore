@@ -11,6 +11,12 @@ static/uploads/
 static/heatmaps/
 static/reports/
 
+X-ray/static/uploads/
+X-ray/static/heatmaps/
+X-ray/static/reports/
+X-ray/__pycache__/
+X-ray/chest_xray/
+
 venv/
 env/
 ENV/
@@ -32,6 +38,9 @@ best_model.h5
 pneumonia_mobilenetv2.h5
 pneumonia_detection_model.h5
 pneumonia_cnn_final.h5
+
+!X-ray/best_model.h5
+!X-ray/best_model_NEW_TEST.h5
 
 training_history.png
 training_plots.png
