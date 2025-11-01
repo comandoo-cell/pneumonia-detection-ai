@@ -1,20 +1,28 @@
 import os
+from datetime import datetime
+
 import numpy as np
 import tensorflow as tf
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, jsonify, redirect, render_template, request
+from tensorflow.keras.applications import efficientnet_v2
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from werkzeug.utils import secure_filename
-from gradcam import generate_gradcam
-from datetime import datetime
+
 import database as db
+from gradcam import generate_gradcam
 from pdf_generator import generate_pdf_report, generate_report_filename
 
-model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'best_model_NEW_TEST.h5'))
+BASE_DIR = os.path.dirname(__file__)
+MODEL_PATH = os.path.join(BASE_DIR, "..", "best_model_STRONG.h5")
+MODEL_THRESHOLD = 0.45
+MODEL_IMG_SIZE = (300, 300)
+PREPROCESS = efficientnet_v2.preprocess_input
 
-UPLOAD_FOLDER = 'static/uploads'
-HEATMAP_FOLDER = 'static/heatmaps'
-REPORTS_FOLDER = 'static/reports'
+model = tf.keras.models.load_model(MODEL_PATH)
+
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'uploads')
+HEATMAP_FOLDER = os.path.join(BASE_DIR, 'static', 'heatmaps')
+REPORTS_FOLDER = os.path.join(BASE_DIR, 'static', 'reports')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
@@ -49,28 +57,28 @@ def predict():
         os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
         file.save(file_path)
         
-        img = image.load_img(file_path, target_size=(224, 224))
+        img = image.load_img(file_path, target_size=MODEL_IMG_SIZE)
         img_array = image.img_to_array(img)
         img_array = np.expand_dims(img_array, axis=0)
-        img_array = preprocess_input(img_array)
+        img_array = PREPROCESS(img_array)
         
         prediction = model.predict(img_array)
-        confidence = float(prediction[0][0])
-        
-        if confidence > 0.5:
+        probability = float(prediction[0][0])
+
+        if probability >= MODEL_THRESHOLD:
             result = 'PNEUMONIA'
-            confidence_percent = confidence * 100
+            confidence_percent = probability * 100
         else:
             result = 'NORMAL'
-            confidence_percent = (1 - confidence) * 100
+            confidence_percent = (1 - probability) * 100
         
         heatmap_filename = f"heatmap_{filename}"
         heatmap_path = os.path.join(app.config['HEATMAP_FOLDER'], heatmap_filename)
         
-        img_for_gradcam = image.load_img(file_path, target_size=(224, 224))
+        img_for_gradcam = image.load_img(file_path, target_size=MODEL_IMG_SIZE)
         img_array_gradcam = image.img_to_array(img_for_gradcam)
         img_array_gradcam = np.expand_dims(img_array_gradcam, axis=0)
-        img_array_gradcam = preprocess_input(img_array_gradcam)
+        img_array_gradcam = PREPROCESS(img_array_gradcam)
         
         gradcam_success = generate_gradcam(file_path, img_array_gradcam, model, heatmap_path)
         
