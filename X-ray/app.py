@@ -17,6 +17,16 @@ MODEL_PATH = os.path.join(BASE_DIR, "..", "best_model_STRONG.h5")
 MODEL_THRESHOLD = 0.45
 MODEL_IMG_SIZE = (300, 300)
 PREPROCESS = efficientnet_v2.preprocess_input
+GRADCAM_LAYER_NAME = None
+GRADCAM_LAYER_CANDIDATES = [
+    "block6f_project_conv",
+    "block5f_project_conv",
+    "block5e_project_conv",
+]
+GRADCAM_MIN_INTENSITY = 0.06
+GRADCAM_APPLY_THRESHOLD = True
+GRADCAM_ALPHA = 0.22
+GRADCAM_BLUR_KERNEL = 5
 
 model = tf.keras.models.load_model(MODEL_PATH)
 
@@ -80,7 +90,18 @@ def predict():
         img_array_gradcam = np.expand_dims(img_array_gradcam, axis=0)
         img_array_gradcam = PREPROCESS(img_array_gradcam)
         
-        gradcam_success = generate_gradcam(file_path, img_array_gradcam, model, heatmap_path)
+        gradcam_success = generate_gradcam(
+            file_path,
+            img_array_gradcam,
+            model,
+            heatmap_path,
+            layer_name=GRADCAM_LAYER_NAME,
+            candidate_layers=GRADCAM_LAYER_CANDIDATES,
+            min_intensity=GRADCAM_MIN_INTENSITY,
+            apply_threshold=GRADCAM_APPLY_THRESHOLD,
+            blur_kernel=GRADCAM_BLUR_KERNEL,
+            alpha=GRADCAM_ALPHA,
+        )
         
         patient_name = request.form.get('patient_name', 'مجهول')
         patient_age = request.form.get('patient_age', None)
