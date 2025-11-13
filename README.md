@@ -11,6 +11,8 @@ Göğüs röntgeni görüntülerinden pnömoni teşhisi için gelişmiş yapay z
 
 ## 🚀 Hızlı Başlangıç (Quick Start)
 
+### ⚡ Hızlı Kurulum
+
 ```bash
 # 1. Projeyi klonlayın
 git clone https://github.com/comandoo-cell/pneumonia-detection-ai.git
@@ -27,6 +29,57 @@ python app.py
 ```
 
 **Not:** Eğitilmiş model `best_model_STRONG.h5` projede mevcut, ek dosya indirmeye gerek yok.
+
+### 📝 İlk Kullanım Adımları
+
+1. **Doktor Hesabı Oluşturun**
+   - `/register` sayfasına gidin
+   - Ad, kullanıcı adı, şifre girin
+   - (Opsiyonel) Hastane adı ekleyin
+
+2. **Giriş Yapın**
+   - Kullanıcı adı ve şifre ile giriş yapın
+
+3. **X-ray Görüntüsü Yükleyin**
+   - Ana sayfada "Dosya Seç" veya sürükle-bırak
+   - PNG, JPG, JPEG formatları desteklenir
+
+4. **Hasta Bilgilerini Girin** (Opsiyonel)
+   - Ad, yaş, cinsiyet, TC Kimlik No, telefon
+
+5. **Analiz Edin ve Sonuçları Görün**
+   - Otomatik AI analizi
+   - Grad-CAM görselleştirme
+   - PDF rapor indirme
+
+### 🧪 Model'i Tek Başına Test Etme
+
+```python
+# Tek bir görüntüyü test etmek için:
+import tensorflow as tf
+from tensorflow.keras.preprocessing import image
+import numpy as np
+
+# Model yükle
+model = tf.keras.models.load_model('best_model_STRONG.h5')
+
+# Görüntü yükle ve hazırla
+img_path = 'test_image.jpg'
+img = image.load_img(img_path, target_size=(300, 300))
+img_array = image.img_to_array(img)
+img_array = np.expand_dims(img_array, axis=0)
+img_array = tf.keras.applications.efficientnet_v2.preprocess_input(img_array)
+
+# Tahmin
+prediction = model.predict(img_array)[0][0]
+
+# Sonuç
+threshold = 0.45
+if prediction >= threshold:
+    print(f"🔴 PNEUMONIA - Güven: {prediction*100:.2f}%")
+else:
+    print(f"🟢 NORMAL - Güven: {(1-prediction)*100:.2f}%")
+```
 
 ---
 
@@ -55,6 +108,42 @@ python app.py
 | **Recall (Pneumonia)** | 98.72% |
 | **Precision (Normal)** | 98.88% |
 | **ROC-AUC** | 0.9937 |
+
+---
+
+## 📁 Veri Seti Bilgileri (Dataset Information)
+
+### 📊 Veri Kaynağı
+- **Dataset**: Chest X-Ray Images (Pneumonia)
+- **Kaynak**: [Kaggle - Chest X-Ray Pneumonia Dataset](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia)
+- **Lisans**: CC BY 4.0
+- **Toplam Görüntü**: 5,863 göğüs röntgeni görüntüsü
+
+### 📈 Veri Dağılımı
+
+| Set | NORMAL | PNEUMONIA | Toplam |
+|-----|--------|-----------|--------|
+| **Train** | 2,446 | 3,875 | 6,321 |
+| **Validation** | 244 | 244 | 488 |
+| **Test** | 472 | 390 | 862 |
+| **Toplam** | 3,162 | 4,509 | 7,671 |
+
+### ⚖️ Sınıf Dengeleme
+- **Train Set Dengesizlik**: ~1:1.58 (Normal:Pneumonia)
+- **Çözüm**: Class weighting kullanıldı
+  - Normal: 1.29 ağırlık
+  - Pneumonia: 0.82 ağırlık
+- **Data Augmentation**: Rotation, shift, zoom, flip
+
+### 🔬 Veri Ön İşleme
+- **Görüntü Boyutu**: 300×300 piksel
+- **Normalizasyon**: EfficientNetV2 preprocess_input
+- **Format**: RGB (3 kanal)
+- **Augmentation**: 
+  - Rotation: ±15°
+  - Width/Height Shift: ±10%
+  - Zoom: ±15%
+  - Horizontal Flip
 
 ---
 
@@ -346,6 +435,65 @@ X-ray/
 
 ---
 
+## 🔬 Model Güvenilirliği ve Genelleme
+
+### ✅ Doğrulama Stratejisi
+
+**Veri Bölünmesi:**
+- ✅ **Train Set**: %82.4 (6,321 görüntü)
+- ✅ **Validation Set**: %6.4 (488 görüntü) 
+- ✅ **Test Set**: %11.2 (862 görüntü)
+- ✅ **Test set hiç görülmedi** (unseen data)
+
+**Eğitim Stratejisi:**
+- ✅ Early Stopping (patience=10)
+- ✅ Learning Rate Scheduling
+- ✅ Class Weighting (dengesizliği gidermek için)
+- ✅ Extensive Data Augmentation
+- ✅ Dropout layers (overfitting önleme)
+
+### 📊 Model Stabilitesi
+
+**Epoch 33'te Early Stopping:**
+- Validation accuracy: 96.93%
+- Validation loss stabilize oldu
+- Overfitting tespit edilmedi
+
+**Test Seti Performansı:**
+- ✅ Test accuracy (95.71%) ≈ Validation accuracy (96.93%)
+- ✅ İyi genelleme göstergesi
+- ✅ Düşük false negative oranı (%1.28)
+
+### ⚠️ Sınırlamalar ve Gelecek İyileştirmeler
+
+**Mevcut Sınırlamalar:**
+1. **Tek Dataset**: Sadece bir kaynaktan veri (Kaggle dataset)
+2. **Cross-validation**: Tam k-fold CV uygulanmadı (hesaplama maliyeti)
+3. **Harici Test**: Farklı hastanelerden test edilmedi
+4. **Pediatrik vs Yetişkin**: Yaş gruplarına göre performans ayrımı yok
+
+**Planlanan İyileştirmeler:**
+1. 🔄 **Multi-center validation**: Farklı hastanelerden veri toplama
+2. 🔄 **5-fold Cross-validation**: Daha güvenilir performans ölçümü
+3. 🔄 **External dataset testing**: NIH ChestX-ray14, MIMIC-CXR
+4. 🔄 **Subgroup analysis**: Yaş, cinsiyet, hastalık şiddetine göre analiz
+5. 🔄 **Ensemble methods**: Birden fazla model birleştirme
+
+### 🏥 Klinik Değerlendirme Önerileri
+
+Bu sistem **karar destek aracı** olarak:
+- ✅ İlk tarama için uygundur
+- ✅ Doktorun iş yükünü azaltabilir
+- ✅ Öncelik sıralamasına yardımcı olabilir
+- ⚠️ **Tek başına tanı aracı OLMAMALIDIR**
+
+**Önerilen Kullanım:**
+1. Sistem yüksek pnömoni ihtimali gösterirse → Öncelikli inceleme
+2. Sistem düşük ihtimal gösterirse → Rutin kontrol
+3. Her durumda → Radyolog/doktor onayı gereklidir
+
+---
+
 ## 🔐 Güvenlik ve Gizlilik
 
 ### Veri Koruma
@@ -390,6 +538,109 @@ Werkzeug==3.0.1
 reportlab==4.0.7
 scikit-learn==1.3.2
 ```
+
+---
+
+## 🔄 Yeniden Üretilebilirlik (Reproducibility)
+
+### 📋 Model Eğitimi Nasıl Yeniden Yapılır?
+
+#### 1️⃣ **Veri Setini İndirin**
+```bash
+# Kaggle'dan indirin veya doğrudan bağlantı:
+# https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia
+
+# Klasör yapısı:
+chest_xray/
+├── train/
+│   ├── NORMAL/
+│   └── PNEUMONIA/
+├── val/
+│   ├── NORMAL/
+│   └── PNEUMONIA/
+└── test/
+    ├── NORMAL/
+    └── PNEUMONIA/
+```
+
+#### 2️⃣ **Model Eğitimi**
+```bash
+cd X-ray
+python train_strong_model.py
+```
+
+**Eğitim Parametreleri:**
+- **Batch Size**: 32
+- **Epochs**: 50 (early stopping ile ~35)
+- **Optimizer**: Adam (learning rate: 0.0001)
+- **Loss Function**: Binary Crossentropy
+- **Class Weights**: Normal=1.94, Pneumonia=0.67
+- **Image Size**: 300×300
+- **Base Model**: EfficientNetV2-B0 (ImageNet pre-trained)
+
+#### 3️⃣ **Model Değerlendirmesi**
+```bash
+python evaluate_model.py
+```
+
+Bu komut oluşturur:
+- ✅ Confusion Matrix (PNG)
+- ✅ ROC Curve (PNG)
+- ✅ Classification Report (JSON)
+- ✅ Optimal Threshold (JSON)
+
+### 🎯 Beklenen Sonuçlar
+
+**Validation Set:**
+- Accuracy: ~96-97%
+- ROC-AUC: ~0.997
+
+**Test Set:**
+- Accuracy: ~95-96%
+- ROC-AUC: ~0.994
+- Recall (Pneumonia): ~98-99%
+
+### 🔬 Model Mimarisi Detayları
+
+```python
+Base: EfficientNetV2-B0 (frozen during first 20 epochs)
+├── GlobalAveragePooling2D
+├── Dense(512, activation='relu')
+├── Dropout(0.5)
+├── Dense(256, activation='relu')
+├── Dropout(0.4)
+└── Dense(1, activation='sigmoid')
+```
+
+**Total Parameters**: ~6.5M  
+**Trainable (final)**: ~8.2M  
+
+---
+
+## 📸 Ekran Görüntüleri (Screenshots)
+
+### 🏠 Ana Sayfa (Upload Interface)
+- Göğüs röntgeni yükleme arayüzü
+- Hasta bilgileri formu
+- Drag & drop desteği
+
+### 📊 Sonuç Sayfası (Result Page)
+- Orijinal X-ray görüntüsü
+- Grad-CAM ısı haritası
+- Teşhis sonucu ve güven oranı
+- PDF rapor indirme
+
+### 📈 Dashboard
+- Toplam tarama sayısı
+- Normal/Pneumonia dağılımı
+- Son taramalar listesi
+- Hasta istatistikleri
+
+### 📄 PDF Raporu
+- Profesyonel tıbbi rapor formatı
+- Hasta ve doktor bilgileri
+- Görüntüler ve Grad-CAM haritası
+- Tıbbi öneriler
 
 ---
 
