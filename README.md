@@ -496,11 +496,6 @@ X-ray/
 - ✅ Class weighting (dengesizlik giderme)
 - ✅ Dropout layers (regularization)
 
-**Ne Yapmadık (henüz):**
-- ❌ K-fold cross-validation
-- ❌ External dataset validation
-- ❌ Multi-center testing
-- ❌ Prospective clinical trial
 
 **Sonuç:**
 - ✅ Tek dataset için **güvenilir** performans
