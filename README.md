@@ -468,9 +468,44 @@ X-ray/
 
 **Mevcut Sınırlamalar:**
 1. **Tek Dataset**: Sadece bir kaynaktan veri (Kaggle dataset)
-2. **Cross-validation**: Tam k-fold CV uygulanmadı (hesaplama maliyeti)
+   - ⚠️ **Neden**: Bu bir eğitim/akademik proje
+   - ⚠️ **Risk**: Model farklı cihazlar/hastanelerde düşük performans gösterebilir
+   - ✅ **Plan**: Ek datasets ile test etme (NIH, MIMIC-CXR)
+
+2. **Cross-validation**: Tam k-fold CV uygulanmadı
+   - ⚠️ **Neden**: Hesaplama süresi (her fold ~3-4 saat × 5 = 15-20 saat)
+   - ⚠️ **Mevcut**: Train/Val/Test split kullanıldı (standart yaklaşım)
+   - ✅ **Sonuç**: Test accuracy (95.71%) ≈ Val accuracy (96.93%) → İyi genelleme
+
 3. **Harici Test**: Farklı hastanelerden test edilmedi
-4. **Pediatrik vs Yetişkin**: Yaş gruplarına göre performans ayrımı yok
+   - ⚠️ **Neden**: Gerçek klinik verilere erişim yok
+   - ⚠️ **Risk**: Domain shift problemi (farklı X-ray cihazları)
+   - ✅ **Önerilen**: Klinik ortamda pilot test
+
+4. **Demografik Analiz**: Yaş, cinsiyet, etnik köken ayrımı yok
+   - ⚠️ **Neden**: Dataset metadata eksik
+   - ⚠️ **Risk**: Bazı gruplarda düşük performans (bias)
+   - ✅ **Plan**: Subgroup analysis ile adalet analizi
+
+### 📊 Güvenilirlik Değerlendirmesi
+
+**Ne Yaptık:**
+- ✅ Unseen test set (862 images, %11.2)
+- ✅ Early stopping (overfitting önleme)
+- ✅ Data augmentation (genelleme artırma)
+- ✅ Class weighting (dengesizlik giderme)
+- ✅ Dropout layers (regularization)
+
+**Ne Yapmadık (henüz):**
+- ❌ K-fold cross-validation
+- ❌ External dataset validation
+- ❌ Multi-center testing
+- ❌ Prospective clinical trial
+
+**Sonuç:**
+- ✅ Tek dataset için **güvenilir** performans
+- ⚠️ Gerçek klinik ortamda **doğrulama gerekli**
+- ⚠️ **Sadece araştırma/eğitim amaçlı**
 
 **Planlanan İyileştirmeler:**
 1. 🔄 **Multi-center validation**: Farklı hastanelerden veri toplama
