@@ -445,7 +445,6 @@ Bu proje eğitim ve araştırma amaçları için açık kaynaklıdır.
 ##  Destek ve İletişim
 
 Sorular veya teknik sorunlar için:
-- 🐛 **GitHub Issues**: [Yeni Issue Aç](https://github.com/comandoo-cell/pneumonia-detection-ai/issues)
 - 💼 **LinkedIn**: [Muhammed Muhammed](https://www.linkedin.com/in/muhammed-muhammed-099958352/)
 - 💻 **GitHub**: [@comandoo-cell](https://github.com/comandoo-cell)
 
