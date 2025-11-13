@@ -1,157 +1,157 @@
-# 🧪 اختبار التحقق من المدخلات
+# 🧪 Giriş Doğrulama Testleri (Input Validation Tests)
 
-## ✅ التعديلات المطبقة:
+## ✅ Uygulanan Değişiklikler:
 
-### 1️⃣ **تسجيل الدكتور (Register)**
-- **اسم المستخدم (Username)**:
-  - ✅ يجب أن يحتوي على **أحرف وأرقام**
-  - ❌ لا يقبل أرقام فقط
-  - ✅ يسمح بالأحرف التركية (ğüşıöç)
-  - ✅ الحد الأدنى: 3 أحرف
-  - ✅ يجب أن يحتوي على حرف واحد على الأقل
+### 1️⃣ **Doktor Kaydı (Doctor Registration)**
+- **Kullanıcı Adı (Username)**:
+  - ✅ **Harf ve rakam** içermelidir
+  - ❌ Sadece rakam kabul edilmez
+  - ✅ Türkçe karakterlere izin verilir (ğüşıöç)
+  - ✅ Minimum: 3 karakter
+  - ✅ En az bir harf içermelidir
 
-**أمثلة صحيحة:**
+**Doğru Örnekler:**
 - ✅ `ahmet123`
 - ✅ `doktor_ali`
 - ✅ `mehmet45`
 
-**أمثلة خاطئة:**
-- ❌ `123456` (أرقام فقط)
-- ❌ `12` (أقل من 3 أحرف)
-- ❌ `dr@123` (رموز خاصة)
+**Yanlış Örnekler:**
+- ❌ `123456` (sadece rakam)
+- ❌ `12` (3 karakterden az)
+- ❌ `dr@123` (özel karakterler)
 
 ---
 
-### 2️⃣ **بيانات المريض (Patient Info)**
+### 2️⃣ **Hasta Bilgileri (Patient Information)**
 
-#### 📝 **اسم المريض (Patient Name)**
-- ✅ فقط **أحرف** (لا أرقام)
-- ✅ يسمح بالمسافات
-- ✅ يسمح بالأحرف التركية
-- ✅ الحد الأدنى: 2 حرف
+#### 📝 **Hasta Adı (Patient Name)**
+- ✅ Sadece **harfler** (rakam yok)
+- ✅ Boşluklara izin verilir
+- ✅ Türkçe karakterlere izin verilir
+- ✅ Minimum: 2 karakter
 
-**أمثلة صحيحة:**
+**Doğru Örnekler:**
 - ✅ `Ahmet Yılmaz`
 - ✅ `Ayşe Öztürk`
 - ✅ `Mehmet`
 
-**أمثلة خاطئة:**
-- ❌ `Ahmet123` (يحتوي على أرقام)
-- ❌ `A` (حرف واحد فقط)
+**Yanlış Örnekler:**
+- ❌ `Ahmet123` (rakam içeriyor)
+- ❌ `A` (sadece 1 karakter)
 
 ---
 
-#### 🆔 **رقم الكيمليك (TC Kimlik No)**
-- ✅ **11 رقم بالضبط**
-- ✅ أرقام فقط (لا أحرف)
-- ⚠️ **اختياري** (يمكن تركه فارغاً)
+#### 🆔 **TC Kimlik No**
+- ✅ **Tam 11 haneli rakam**
+- ✅ Sadece rakamlar (harf yok)
+- ⚠️ **Opsiyonel** (boş bırakılabilir)
 
-**أمثلة صحيحة:**
-- ✅ `12345678901` (11 رقم)
-- ✅ ` ` (فارغ - اختياري)
+**Doğru Örnekler:**
+- ✅ `12345678901` (11 rakam)
+- ✅ ` ` (boş - opsiyonel)
 
-**أمثلة خاطئة:**
-- ❌ `123456789` (أقل من 11)
-- ❌ `123456789012` (أكثر من 11)
-- ❌ `1234567890A` (يحتوي على أحرف)
+**Yanlış Örnekler:**
+- ❌ `123456789` (11'den az)
+- ❌ `123456789012` (11'den fazla)
+- ❌ `1234567890A` (harf içeriyor)
 
 ---
 
-#### 📞 **رقم الهاتف (Phone)**
-- ✅ **10 أرقام**
-- ✅ يضاف **+90** تلقائياً
-- ✅ يمكن إدخاله بأي تنسيق (مسافات، شرطات)
-- ⚠️ **اختياري**
+#### 📞 **Telefon Numarası (Phone Number)**
+- ✅ **10 haneli rakam**
+- ✅ Otomatik olarak **+90** eklenir
+- ✅ Herhangi bir formatta girilebilir (boşluk, tire)
+- ⚠️ **Opsiyonel**
 
-**أمثلة الإدخال:**
+**Giriş Örnekleri:**
 - `5551234567` → `+905551234567` ✅
 - `555 123 45 67` → `+905551234567` ✅
 - `0555 123 45 67` → `+905551234567` ✅
 - `+90 555 123 45 67` → `+905551234567` ✅
 
-**أمثلة خاطئة:**
-- ❌ `555123456` (9 أرقام فقط)
-- ❌ `55512345678` (11 رقم)
+**Yanlış Örnekler:**
+- ❌ `555123456` (9 rakam)
+- ❌ `55512345678` (11 rakam)
 
 ---
 
-## 🔍 التحقق المزدوج:
+## 🔍 Çift Doğrulama (Dual Validation):
 
-### **جانب العميل (Client-Side)**
-- ✅ التحقق الفوري في المتصفح
-- ✅ رسائل خطأ واضحة
-- ✅ منع الإرسال قبل التصحيح
+### **İstemci Tarafı (Client-Side)**
+- ✅ Tarayıcıda anında doğrulama
+- ✅ Net hata mesajları
+- ✅ Düzeltme yapılmadan gönderim engellenir
 
-### **جانب الخادم (Server-Side)**
-- ✅ تحقق ثانوي للأمان
-- ✅ رسائل Flash للمستخدم
-- ✅ إعادة التوجيه عند الخطأ
-
----
-
-## 🧪 اختبارات مقترحة:
-
-### 1. تسجيل دكتور:
-```
-Username: "123456" → ❌ خطأ
-Username: "ahmet" → ✅ صحيح
-Username: "ahmet123" → ✅ صحيح
-```
-
-### 2. إضافة مريض:
-```
-Name: "Ahmet Yılmaz" → ✅ صحيح
-Name: "Ahmet123" → ❌ خطأ
-
-TC: "12345678901" → ✅ صحيح (11 رقم)
-TC: "123456789" → ❌ خطأ (9 أرقام)
-
-Phone: "5551234567" → ✅ يصبح +905551234567
-Phone: "555123456" → ❌ خطأ (9 أرقام)
-```
+### **Sunucu Tarafı (Server-Side)**
+- ✅ Güvenlik için ikinci doğrulama
+- ✅ Kullanıcıya Flash mesajları
+- ✅ Hata durumunda yönlendirme
 
 ---
 
-## 📋 ملاحظات:
+## 🧪 Önerilen Testler:
 
-1. **كل الحقول اختيارية** ما عدا:
-   - ✅ اسم الدكتور
-   - ✅ اسم المستخدم
-   - ✅ كلمة المرور
+### 1. Doktor Kaydı Testi:
+```
+Username: "123456" → ❌ Hata
+Username: "ahmet" → ✅ Başarılı
+Username: "ahmet123" → ✅ Başarılı
+```
 
-2. **رقم الهاتف**:
-   - يتم تنظيفه تلقائياً
-   - يضاف +90 تلقائياً
-   - يحفظ بالتنسيق: `+90XXXXXXXXXX`
+### 2. Hasta Ekleme Testi:
+```
+Ad: "Ahmet Yılmaz" → ✅ Başarılı
+Ad: "Ahmet123" → ❌ Hata
 
-3. **رقم الكيمليك**:
-   - يجب أن يكون 11 رقم **بالضبط**
-   - لا يقبل أكثر أو أقل
+TC: "12345678901" → ✅ Başarılı (11 rakam)
+TC: "123456789" → ❌ Hata (9 rakam)
 
-4. **اسم المريض**:
-   - **فقط أحرف** (عربية، تركية، إنجليزية)
-   - **لا أرقام نهائياً**
+Telefon: "5551234567" → ✅ +905551234567 olur
+Telefon: "555123456" → ❌ Hata (9 rakam)
+```
 
 ---
 
-## ✅ الملفات المعدلة:
+## 📋 Notlar:
+
+1. **Tüm alanlar opsiyoneldir** (şunlar hariç):
+   - ✅ Doktor adı
+   - ✅ Kullanıcı adı
+   - ✅ Şifre
+
+2. **Telefon Numarası**:
+   - Otomatik temizlenir
+   - Otomatik +90 eklenir
+   - Format: `+90XXXXXXXXXX`
+
+3. **TC Kimlik No**:
+   - **Tam 11 haneli** olmalıdır
+   - Daha fazla veya daha az kabul edilmez
+
+4. **Hasta Adı**:
+   - **Sadece harfler** (Arapça, Türkçe, İngilizce)
+   - **Kesinlikle rakam yok**
+
+---
+
+## ✅ Değiştirilen Dosyalar:
 
 1. **app.py**:
-   - إضافة دوال التحقق: `validate_username()`, `validate_patient_name()`, `validate_tc_kimlik()`, `validate_phone()`
-   - تعديل route `/register`
-   - تعديل route `/predict`
+   - Doğrulama fonksiyonları: `validate_username()`, `validate_patient_name()`, `validate_tc_kimlik()`, `validate_phone()`
+   - `/register` route güncellendi
+   - `/predict` route güncellendi
 
 2. **templates/register.html**:
-   - إضافة `pattern` و `title` للتحقق
-   - إضافة ملاحظات توضيحية
+   - Doğrulama için `pattern` ve `title` eklendi
+   - Açıklayıcı notlar eklendi
 
 3. **templates/index.html**:
-   - تحديث حقول المريض مع `pattern` و `title`
-   - إضافة JavaScript للتحقق قبل الإرسال
-   - إضافة رسائل توضيحية
+   - Hasta alanları `pattern` ve `title` ile güncellendi
+   - Gönderimden önce doğrulama için JavaScript eklendi
+   - Açıklayıcı mesajlar eklendi
 
 ---
 
-## 🚀 جاهز للنشر!
+## 🚀 Yayına Hazır!
 
-التحقق من المدخلات مكتمل ✅
+Giriş doğrulama tamamlandı ✅
